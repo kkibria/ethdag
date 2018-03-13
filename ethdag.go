@@ -16,7 +16,7 @@ const (
 func main() {
 	repeatPtr := flag.Uint64("r", 1, "Number of dags to generate. Maximum 16 dags.")
 	blockFlagPtr := flag.Bool("b", false, "Set this flag if the number is a block number.")
-	epochFlagPtr := flag.Bool("e", true, "Set this flag if the number is an epoch.")
+	epochFlagPtr := flag.Bool("e", false, "Set this flag if the number is an epoch.")
 	outDirPtr := flag.String("o", "outDir", "Output directory.")
 
 	flag.Usage = func() {
