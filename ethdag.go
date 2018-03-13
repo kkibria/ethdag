@@ -58,8 +58,7 @@ func main() {
 	fmt.Fprintf(os.Stdout, "seedhash = %v\n", seedhash)
 
 	for i := uint64(0); i < *repeatPtr; i++ {
-		uint64 e := epoch+i
+		e := epoch + i
 		ethash.MakeDataset((e)*blocksPerEpoch, fmt.Sprintf("%s-%v", *outDirPtr, e))
 	}
-
 }
