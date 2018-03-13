@@ -17,7 +17,7 @@ func main() {
 	repeatPtr := flag.Uint64("r", 1, "Number of dags to generate. Maximum 16 dags.")
 	blockFlagPtr := flag.Bool("b", false, "Set this flag if the number is a block number.")
 	epochFlagPtr := flag.Bool("e", false, "Set this flag if the number is an epoch.")
-	outDirPtr := flag.String("o", "outDir", "Output directory.")
+	outDirPtr := flag.String("o", "ethdag", "Output directory prefix.")
 
 	flag.Usage = func() {
 		fmt.Printf("Usage of %s:\n", os.Args[0])
@@ -58,7 +58,8 @@ func main() {
 	fmt.Fprintf(os.Stdout, "seedhash = %v\n", seedhash)
 
 	for i := uint64(0); i < *repeatPtr; i++ {
-		ethash.MakeDataset(epoch*blocksPerEpoch+i, *outDirPtr)
+		fmt.Sprintf("%s%v", *outDirPtr, epoch+i)
+		ethash.MakeDataset((epoch+i)*blocksPerEpoch, fmt.Sprintf("%s-%v", *outDirPtr, epoch+i))
 	}
 
 }
