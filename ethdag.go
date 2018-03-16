@@ -25,10 +25,10 @@ var (
 func main() {
 	var err error
 
-	pDatasetCnt := flag.Uint64("r", 1, "Number of datasets to generate. Maximum 16 dags.")
+	pDatasetCnt := flag.Uint64("r", 1, "Number of datasets to generate. Maximum 16 datasets.")
 	pBlock := flag.Uint64("b", math.MaxUint64, "Block number. Epoch number must not be specified.")
 	pEpoch := flag.Uint64("e", math.MaxUint64, "Epoch number. Block number must not be specified.")
-	pStatsFlag = flag.Bool("s", false, "Stats only, do not generate dataset.")
+	pStatsFlag = flag.Bool("s", false, "Stats only, does not generate dataset.")
 	pOutDir = flag.String("o", "eth-dataset", "Output directory.")
 
 	flag.Usage = func() {
