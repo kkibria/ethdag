@@ -1,4 +1,4 @@
-// place this file in the ethash directory of the geth source
+// place this file in the ethash directory of the go-ethereum source tree
 package ethash
 
 import "math"
