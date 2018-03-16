@@ -1,6 +1,4 @@
 // place this file in the ethash directory of the geth source
-// and rename to sizes.go to expose the following functions
-
 package ethash
 
 import "math"
