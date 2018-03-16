@@ -1,10 +1,10 @@
 # ethdag
-Saves dag on disk, uses geth code.
+Saves full dataset on disk, uses go-etherium code.
 
 ## Installing
 `go get github.com/kkibria/ethdag`
 
-will install the package and dependency geth. Copy the file `sizes.go` from the `ethdag/ethash` directory to the `ethash` directory of the geth source tree. This will expose the cacheSize and datasetSize functions we need.
+will install the package and dependency, go-etherium. Copy the file `sizes.go` from the `ethdag/ethash` directory to the `ethash` directory of the `go-etherium` source tree. This will expose the cacheSize and datasetSize functions we need.
 
 ## Compile
 Running `go install` will compile and install the executable in $GOPATH/bin directory. 
