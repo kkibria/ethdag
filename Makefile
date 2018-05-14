@@ -1,3 +1,3 @@
 default:
-	cp ethhash/sizes.g $(GOPATH)/src/github.com/ethereum/go-ethereum/consensus/ethash
+	cp ethhash/sizes.go $(GOPATH)/src/github.com/ethereum/go-ethereum/consensus/ethash
 	go build
