@@ -3,9 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"math"
 	"os"
 	"path/filepath"
+	"time"
 	"unsafe"
 
 	eth "github.com/ethereum/go-ethereum/consensus/ethash"
@@ -24,6 +26,8 @@ var (
 
 func main() {
 	var err error
+
+	defer timeTrack(time.Now(), "ethdag")
 
 	pDatasetCnt := flag.Uint64("r", 1, "Number of datasets to generate. Maximum 16 datasets.")
 	pBlock := flag.Uint64("b", math.MaxUint64, "Block number. Epoch number must not be specified.")
@@ -92,4 +96,9 @@ func fixName(e uint64) error {
 	oldPath := filepath.Join(*pOutDir, filename)
 	newPath := filepath.Join(*pOutDir, fmt.Sprintf("epoch-%v-full", e))
 	return os.Rename(oldPath, newPath)
+}
+
+func timeTrack(start time.Time, name string) {
+	elapsed := time.Since(start)
+	log.Printf("%s took %s", name, elapsed)
 }
