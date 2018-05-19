@@ -3,13 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"kkutils"
 	"math"
 	"os"
 	"time"
 
 	eth "github.com/ethereum/go-ethereum/consensus/ethash"
 	"github.com/kkibria/ethdag/dataset"
+	"github.com/kkibria/kkutils"
 )
 
 var (

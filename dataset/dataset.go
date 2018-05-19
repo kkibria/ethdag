@@ -2,11 +2,11 @@ package dataset
 
 import (
 	"fmt"
-	"kkutils"
 	"os"
 	"path/filepath"
 
 	eth "github.com/ethereum/go-ethereum/consensus/ethash"
+	"github.com/kkibria/kkutils"
 )
 
 const (
