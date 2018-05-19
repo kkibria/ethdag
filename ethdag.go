@@ -3,18 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
+	"kkutils"
 	"math"
 	"os"
-	"path/filepath"
 	"time"
-	"unsafe"
 
 	eth "github.com/ethereum/go-ethereum/consensus/ethash"
-)
-
-const (
-	blocksPerEpoch = 30000
+	"github.com/kkibria/ethdag/dataset"
 )
 
 var (
@@ -27,7 +22,7 @@ var (
 func main() {
 	var err error
 
-	defer timeTrack(time.Now(), "ethdag")
+	defer kkutils.TimeTrack(time.Now(), "ethdag")
 
 	pDatasetCnt := flag.Uint64("r", 1, "Number of datasets to generate. Maximum 16 datasets.")
 	pBlock := flag.Uint64("b", math.MaxUint64, "Block number. Epoch number must not be specified.")
@@ -57,48 +52,30 @@ func main() {
 	}
 
 	if *pEpoch != math.MaxUint64 {
-		*pBlock = *pEpoch * blocksPerEpoch
+		*pBlock = *pEpoch * dataset.BlocksPerEpoch
 	} else {
-		*pEpoch = *pBlock / blocksPerEpoch
+		*pEpoch = *pBlock / dataset.BlocksPerEpoch
 	}
 
 	fmt.Fprintf(os.Stdout, "Block = %v\n", *pBlock)
 	fmt.Fprintf(os.Stdout, "Epoch = %v\n", *pEpoch)
 
-	if !isLittleEndian() {
+	if !kkutils.IsLittleEndian() {
 		endian = ".be"
 	}
 
 	for i := uint64(0); i < *pDatasetCnt; i++ {
 		e := *pEpoch + i
-		b := e * blocksPerEpoch
+		b := e * dataset.BlocksPerEpoch
 		// sizes
 		seedhash = eth.SeedHash(b)
 		fmt.Fprintf(os.Stdout, "\nseedhash(%v) = %x\n", e, seedhash)
 		fmt.Fprintf(os.Stdout, "Cache size = %v\n", eth.CacheSize(b))
 		fmt.Fprintf(os.Stdout, "Dataset size = %v\n", eth.DatasetSize(b))
 		if !*pStatsFlag {
-			eth.MakeDatasetFinalize(b, *pOutDir)
-			if err = fixName(e); err != nil {
+			if err = dataset.Dataset(e, *pOutDir); err != nil {
 				fmt.Println(err)
 			}
 		}
 	}
-}
-
-func isLittleEndian() bool {
-	n := uint32(0x01020304)
-	return *(*byte)(unsafe.Pointer(&n)) == 0x04
-}
-
-func fixName(e uint64) error {
-	filename := fmt.Sprintf("full-R%d-%x%s", eth.GetRev(), seedhash[:8], endian)
-	oldPath := filepath.Join(*pOutDir, filename)
-	newPath := filepath.Join(*pOutDir, fmt.Sprintf("epoch-%v-full", e))
-	return os.Rename(oldPath, newPath)
-}
-
-func timeTrack(start time.Time, name string) {
-	elapsed := time.Since(start)
-	log.Printf("%s took %s", name, elapsed)
 }
